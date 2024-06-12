@@ -32,38 +32,36 @@ func main() {
 	}
 
 	success := SignIn(client)
-	if success {
-		result := "签到成功"
-		fmt.Println(result)
-		dingding(result)
-	} else {
+	if success == ""{
 		result := "签到失败"
 		fmt.Println(result)
 		dingding(result)
 		os.Exit(3)
+	}else{
+		result := "签到成功" + success
+		fmt.Println(result)
+		dingding(result)
 	}
 }
 
 // SignIn 签到
-func SignIn(client *http.Client) bool {
+func SignIn(client *http.Client) string {
 	cookie := os.Getenv(CookieEnvVariable)
 	if cookie == "" {
 		log.Println("COOKIE不存在，请检查是否添加")
-		return false
+		return ""
 	}
 	payload_str := os.Getenv(PayloadEnvVariable)
-	log.Println(cookie)
-	log.Println(payload_str)
 	if payload_str == "" {
 		log.Println("PAYLOAD不存在，请检查是否添加")
-		return false
+		return ""
 	}
 	payload := strings.NewReader(string(payload_str))
 
 	req, err := http.NewRequest("POST", SignInURL, payload)
 	if err != nil {
 		log.Println("创建请求失败:", err)
-		return false
+		return ""
 	}
 
 	req.Header.Set("Cookie", cookie)
@@ -73,19 +71,19 @@ func SignIn(client *http.Client) bool {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println("发送请求失败:", err)
-		return false
+		return ""
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Println("读取响应失败:", err)
-		return false
+		return ""
 	}
 
 	log.Println(string(body))
 
-	return strings.Contains(string(body), "成功")
+	return string(body.message)
 }
 
 func dingding(result string) {
