@@ -38,7 +38,7 @@ func main() {
 		dingding(result)
 		os.Exit(3)
 	}else{
-		result := "签到成功" + success
+		result := "签到成功\n" + success
 		fmt.Println(result)
 		dingding(result)
 	}
@@ -83,7 +83,7 @@ func SignIn(client *http.Client) string {
 
 	log.Println(string(body))
 
-	return string(body.message)
+	return string(body)
 }
 
 func dingding(result string) {
