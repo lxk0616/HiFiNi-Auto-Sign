@@ -50,14 +50,16 @@ func SignIn(client *http.Client) bool {
 		log.Println("COOKIE不存在，请检查是否添加")
 		return false
 	}
+	payload := strings.NewReader(`sign=28661b6ee85433469964c826e94682a70a941619266ebeea2e3b7a28b6fa4ac2`)
 
-	req, err := http.NewRequest("POST", SignInURL, nil)
+	req, err := http.NewRequest("POST", SignInURL, payload)
 	if err != nil {
 		log.Println("创建请求失败:", err)
 		return false
 	}
 
 	req.Header.Set("Cookie", cookie)
+	req.Header.Set("content-type", "application/x-www-form-urlencoded; charset=UTF-8")
 	req.Header.Set("x-requested-with", "XMLHttpRequest")
 
 	resp, err := client.Do(req)
