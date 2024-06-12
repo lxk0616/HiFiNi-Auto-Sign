@@ -52,6 +52,8 @@ func SignIn(client *http.Client) bool {
 		return false
 	}
 	payload_str := os.Getenv(PayloadEnvVariable)
+	log.Println(cookie)
+	log.Println(payload_str)
 	if payload_str == "" {
 		log.Println("PAYLOAD不存在，请检查是否添加")
 		return false
