@@ -52,8 +52,8 @@ func SignIn(client *http.Client) bool {
 		return false
 	}
 	payload_str := os.Getenv(PayloadEnvVariable)
-	log.Println(payload_str)
-	payload := strings.NewReader(payload_str)
+	log.Println(string(payload_str))
+	payload := strings.NewReader(string(payload_str))
 
 	req, err := http.NewRequest("POST", SignInURL, payload)
 	if err != nil {
