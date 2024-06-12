@@ -51,8 +51,9 @@ func SignIn(client *http.Client) bool {
 		log.Println("COOKIE不存在，请检查是否添加")
 		return false
 	}
-	cookie_str := os.Getenv(PayloadEnvVariable)
-	payload := strings.NewReader(cookie_str)
+	payload_str := os.Getenv(PayloadEnvVariable)
+	log.Println(payload_str)
+	payload := strings.NewReader(payload_str)
 
 	req, err := http.NewRequest("POST", SignInURL, payload)
 	if err != nil {
