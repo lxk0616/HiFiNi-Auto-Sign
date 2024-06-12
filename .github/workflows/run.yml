@@ -21,4 +21,5 @@ jobs:
               env:
                 COOKIE: ${{ secrets.COOKIE }}
                 DINGDING_WEBHOOK: ${{ secrets.DINGDING_WEBHOOK }}
+                PAYLOAD: ${{ secrets.PAYLOAD }}
               run: go run main.go
